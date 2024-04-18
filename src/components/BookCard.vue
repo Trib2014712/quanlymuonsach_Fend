@@ -1,7 +1,7 @@
 <script>
 export default {
     props: {
-        contact: { type: Object, required: true },
+        book: { type: Object, required: true },
     },
 };
 </script>

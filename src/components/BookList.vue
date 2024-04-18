@@ -1,3 +1,4 @@
+
 <script>
 export default {
     props: {
@@ -11,12 +12,13 @@ export default {
         }
     }
 };
+
 </script>
 <template>
     <ul class="list-group">
         <li class="list-group-item" v-for="(book, index) in books" :key="book._id"
             :class="{ active: index === activeIndex }" @click="updateActiveIndex(index)">
-            {{ book.name }}
+            {{ book.tenSach }}
         </li>
     </ul>
 </template>

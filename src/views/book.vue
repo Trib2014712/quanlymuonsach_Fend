@@ -8,17 +8,17 @@
                 Quản lý mượn sách
                 <i class="fas fa-address-book"></i>
             </h4>
-            <BooktList v-if="filteredBooksCount > 0" :contacts="filteredBooks"
+            <BookList v-if="filteredBooksCount > 0" :books="filteredBooks"
                 v-model:activeIndex="activeIndex" />
             <p v-else>Không có liên hệ nào.</p>
             <div class="mt-3 row justify-content-around align-items-center">
                 <button class="btn btn-sm btn-primary" @click="refreshList()">
                     <i class="fas fa-redo"></i> Làm mới
                 </button>
-                <button class="btn btn-sm btn-success" @click="goToAddContact()">
+                <button class="btn btn-sm btn-success" @click="goToAddBook()">
                     <i class="fas fa-plus"></i> Thêm mới
                 </button>
-                <button class="btn btn-sm btn-danger" @click="removeAllContacts">
+                <button class="btn btn-sm btn-danger" @click="removeAllBooks">
                     <i class="fas fa-trash"></i> Xóa tất cả
                 </button>
             </div>
@@ -29,10 +29,10 @@
                     Chi tiết Liên hệ
                     <i class="fas fa-address-card"></i>
                 </h4>
-                <BookCard :contact="activebook" />
+                <BookCard :book="activebook" />
                 <router-link :to="{
                 name: 'book.edit',
-                params: { id: activebook._id },
+                params: { id: activeBook._id },
             }">
                     <span class="mt-2 badge badge-warning">
                         <i class="fas fa-edit"></i> Hiệu chỉnh</span>
@@ -52,8 +52,8 @@
 import BookCard from "@/components/BookCard.vue";
 import InputSearch from "@/components/InputSearch.vue";
 import BookList from "@/components/BookList.vue";
-import ContactService from "@/services/book.service";
-// import ContactAdd from "./ContactAdd.vue";
+import BookAdd from "./BookAdd.vue";
+import BookService from "@/services/book.service";
 export default {
     components: {
         BookCard,
@@ -79,8 +79,8 @@ export default {
         // Chuyển các đối tượng contact thành chuỗi để tiện cho tìm kiếm.
         bookStrings() {
             return this.books.map((book) => {
-                const { maSach, tenSach, docGia, soQuyen, namXuatBan, maNXB, tacGia } = book;
-                return [ maSach, tenSach, docGia, soQuyen, namXuatBan, maNXB, tacGia ].join("");
+                const { maSach, tenSach, donGia, soQuyen, namXuatBan, maNXB, tacGia } = book;
+                return [ maSach, tenSach, donGia, soQuyen, namXuatBan, maNXB, tacGia ].join("");
             });
         },
         // Trả về các contact có chứa thông tin cần tìm kiếm.
