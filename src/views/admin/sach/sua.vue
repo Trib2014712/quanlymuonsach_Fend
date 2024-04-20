@@ -33,7 +33,7 @@
                 </div>
                 <!-- Các trường thông tin khác -->
                 <div class="form-group">
-                    <button type="submit" class="save-button">Lưu Thay Đổi</button>
+                    <button type="submit" class="save-button">Thay Đổi</button>
                     <router-link :to="{ name: 'quanlysach' }">
                         <button type="button" class="return-button">Trở Về</button>
                     </router-link>
@@ -93,11 +93,13 @@ export default {
 
 <style scoped>
 .edit-book-container {
-    background-color: white;
+    background-color: #ffffff; /* Màu nền sáng */
     margin: 30px auto;
-    width: 900px;
-    border-radius: 5px;
+    width: 80%;
+    max-width: 900px;
+    border-radius: 8px;
     padding: 20px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
 }
 
 .edit-book {
@@ -106,39 +108,52 @@ export default {
 }
 
 .form-group {
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 }
 
 label {
     display: block;
     font-weight: bold;
+    margin-bottom: 8px;
 }
 
 input[type="text"],
 input[type="number"],
 select {
-    width: calc(100% - 16px);
-    padding: 8px;
+    width: 100%;
+    padding: 12px;
     border: 1px solid #ccc;
-    border-radius: 4px;
+    border-radius: 6px;
 }
 
 button {
-    background-color: #007bff;
-    color: #fff;
-    padding: 10px 20px;
+    width: auto;
+    padding: 12px 24px;
     border: none;
-    border-radius: 4px;
+    border-radius: 6px;
     cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
 }
 
-.return-button {
-    background-color: #ffc107;
-    margin-left: 20px;
+button.save-button {
+    background-image: linear-gradient(to right, #00b4db, #0083b0);
+    color: #fff;
+}
+
+button.return-button {
+    background-image: linear-gradient(to right, #ffc107, #ffb000);
+    color: #000;
+}
+
+button:hover {
+    background-color: #333;
+    color: #fff;
 }
 
 .message {
-    margin-top: 10px;
+    margin-top: 20px;
+    font-size: 16px;
     color: #dc3545;
 }
 </style>

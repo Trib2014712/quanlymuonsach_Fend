@@ -7,6 +7,10 @@ import createApiClient from "./api.service";
         async getAll() {
             return (await this.api.get("/")).data;
         }
+        async getByMaSach() {
+            return (await this.api.get("/")).data;
+        }
+        
         async create(data) {
             return (await this.api.post("/", data)).data;
         }

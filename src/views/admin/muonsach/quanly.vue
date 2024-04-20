@@ -1,114 +1,121 @@
 <template>
-    <div class="container">
-      <h2 class="mt-4">Danh sách Sách</h2>
-      <div class="row mt-3">
-        <!-- Form thêm sách -->
-        <div class="col-md-4 mb-3">
-          <div class="card">
-            <div class="card-body">
-              <h5 class="card-title">Thêm Sách Mới</h5>
-              <form @submit.prevent="addBook">
-                <div class="form-group">
-                  <label for="newMaSach">Mã sách:</label>
-                  <input type="text" class="form-control" id="newMaSach" v-model="newBook.maSach" required>
-                </div>
-                <div class="form-group">
-                  <label for="newTenSach">Tên sách:</label>
-                  <input type="text" class="form-control" id="newTenSach" v-model="newBook.tenSach" required>
-                </div>
-                <div class="form-group">
-                  <label for="newDonGia">Đơn giá:</label>
-                  <input type="number" class="form-control" id="newDonGia" v-model="newBook.donGia" required>
-                </div>
-                <div class="form-group">
-                  <label for="newSoQuyen">Số lượng:</label>
-                  <input type="number" class="form-control" id="newSoQuyen" v-model="newBook.soQuyen" required>
-                </div>
-                <div class="form-group">
-                  <label for="newNamXuatBan">Năm xuất bản:</label>
-                  <input type="number" class="form-control" id="newNamXuatBan" v-model="newBook.namXuatBan" required>
-                </div>
-                <div class="form-group">
-                  <label for="newMaNXB">Mã NXB:</label>
-                  <input type="text" class="form-control" id="newMaNXB" v-model="newBook.maNXB" required>
-                </div>
-                <div class="form-group">
-                  <label for="newTacGia">Tác giả:</label>
-                  <input type="text" class="form-control" id="newTacGia" v-model="newBook.tacGia" required>
-                </div>
-                <button type="submit" class="btn btn-primary">Thêm sách</button>
-              </form>
-            </div>
-          </div>
-        </div>
-        <!-- Danh sách sách -->
-        <div class="col-md-8">
-          <div v-for="book in books" :key="book.maSach" class="card mb-3">
-            <div class="card-body">
-              <h5 class="card-title">{{ book.tenSach }}</h5>
-              <p class="card-text"><strong>Mã sách:</strong> {{ book.maSach }}</p>
-              <p class="card-text"><strong>Đơn giá:</strong> {{ book.donGia }}</p>
-              <p class="card-text"><strong>Số lượng:</strong> {{ book.soQuyen }}</p>
-              <p class="card-text"><strong>Năm xuất bản:</strong> {{ book.namXuatBan }}</p>
-              <p class="card-text"><strong>Mã NXB:</strong> {{ book.maNXB }}</p>
-              <p class="card-text"><strong>Tác giả:</strong> {{ book.tacGia }}</p>
-              <button @click="editBook(book)" class="btn btn-sm btn-primary mr-2">Sửa</button>
-              <button @click="deleteBook(book.maSach)" class="btn btn-sm btn-danger">Xóa</button>
-            </div>
-          </div>
-          <p v-if="books.length === 0" class="text-center">Không có sách nào.</p>
-        </div>
+  <Navbar />
+  <div class="admin-manage-borrowing">
+    <div class="form-container">
+      <div class="form-header">
+        <!-- <h2>Quản lý Mượn Sách</h2> -->
+      </div>
+      <div class="form-content">
+        <table>
+          <thead>
+            <tr>
+              <th>Số Thứ Tự</th>
+              <th>Mã Đọc Giả</th>
+              <th>Tên Đọc Giả</th>
+              <th>Mã Sách Mượn</th>
+              <th>Tên Sách Mượn</th>
+              <th>Ngày Mượn</th>
+              <th>Ngày Trả</th>
+              <th>Tình Trạng</th>
+              <th>Hành Động</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(muonsach, index) in muonsachs" :key="index">
+              <td>{{ index + 1 }}</td>
+              <td>{{ muonsach.maDocGia }}</td>
+              <td>{{ muonsach.tenDocGia }}</td>
+              <td>{{ muonsach.maSach }}</td>
+              <td>{{ muonsach.tenSach }}</td>
+              <td>{{ muonsach.ngayMuon }}</td>
+              <td>{{ muonsach.ngayTra }}</td>
+              <td>{{ muonsach.trangThai }}</td>
+              <td>
+                <router-link :to="{ name: 'suatrangthai', params: { id: muonsach._id } }">
+                  <button class="edit-button" @click="editStatus(muonsach)">Sửa Trạng Thái</button>
+                </router-link>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
-  </template>
-  
-  <script>
-  import navbar from "@/components/navbar.vue";
-  export default {
-    data() {
-      return {
-        books: [
-          { maSach: '001', tenSach: 'Sách A', donGia: 100000, soQuyen: 10, namXuatBan: 2020, maNXB: 'NXB001', tacGia: 'Tác giả A' },
-          { maSach: '002', tenSach: 'Sách B', donGia: 120000, soQuyen: 8, namXuatBan: 2019, maNXB: 'NXB002', tacGia: 'Tác giả B' },
-          { maSach: '003', tenSach: 'Sách C', donGia: 90000, soQuyen: 15, namXuatBan: 2021, maNXB: 'NXB003', tacGia: 'Tác giả C' },
-        ],
-        newBook: { maSach: '', tenSach: '', donGia: 0, soQuyen: 0, namXuatBan: 0, maNXB: '', tacGia: '' },
-        editMode: false,
-        editedBook: {}
-      };
+  </div>
+</template>
+
+<script>
+import Navbar from "@/components/navbar.vue";
+import BorrowingService from '@/services/muonsach.service';
+
+export default {
+  components: {
+    Navbar,
+  },
+  data() {
+    return {
+      muonsachs: [],
+    };
+  },
+  methods: {
+    editStatus(muonsach) {
+      this.$router.push({ name: "suatrangthai", params: { id: muonsach._id } });
     },
-    methods: {
-      addBook() {
-        this.books.push({ ...this.newBook });
-        this.newBook = { maSach: '', tenSach: '', donGia: 0, soQuyen: 0, namXuatBan: 0, maNXB: '', tacGia: '' };
-      },
-      editBook(book) {
-        this.editMode = true;
-        this.editedBook = { ...book };
-      },
-      saveEditedBook() {
-        this.editMode = false;
-        // Cập nhật thông tin sách đã sửa trong mảng books
-        const index = this.books.findIndex(book => book.maSach === this.editedBook.maSach);
-        if (index !== -1) {
-          this.books.splice(index, 1, { ...this.editedBook });
-        }
-        this.editedBook = {};
-      },
-      cancelEdit() {
-        this.editMode = false;
-        this.editedBook = {};
-      },
-      deleteBook(maSach) {
-        if (confirm('Bạn có chắc chắn muốn xóa sách này?')) {
-          this.books = this.books.filter(book => book.maSach !== maSach);
-        }
-      }
-    }
-  };
-  </script>
-  
-  <style scoped>
-  /* Your custom styles can go here */
-  </style>
-  
+    async getAllBorrow() {
+      this.muonsachs = await BorrowingService.getAll();
+    },
+  },
+  created() {
+    this.getAllBorrow();
+  },
+};
+</script>
+
+<style scoped>
+.admin-manage-borrowing {
+  display: flex;
+}
+.form-container {
+  background-color: #f9f9f9;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  width: 100%;
+}
+.form-header {
+  text-align: center;
+  margin-bottom: 20px;
+}
+.form-header h2 {
+  font-size: 24px;
+  color: #333;
+}
+.form-content {
+  overflow-x: auto;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+th,
+td {
+  border: 1px solid #ccc;
+  padding: 8px;
+  text-align: left;
+}
+th {
+  background-color: #f2f2f2;
+}
+.edit-button {
+  background: linear-gradient(to right, #007bff, #0056b3);
+  color: #fff;
+  padding: 5px 10px;
+  margin-right: 5px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+.edit-button:hover {
+  background: linear-gradient(to right, #0056b3, #007bff);
+}
+</style>

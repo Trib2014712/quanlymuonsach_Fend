@@ -1,6 +1,6 @@
 <template>
     <div class="register-form">
-        <h2>Đăng Ký Độc Giả</h2>
+        <h2>Đăng Ký Tài Khoản</h2>
         <form @submit.prevent="submitForm">
             <div class="form-group">
                 <label for="lastName">Họ lót:</label>

@@ -1,11 +1,11 @@
 <template>
-    <Navbar/>
-    <div class="admin-panel">
-      <div class="main-content">
-        <h2>Quản lý Nhà Xuất Bản</h2>
-        <div class="action-bar">
-        <router-link to="/admin/sach/them">
-          <button class="them">Thêm sách</button>
+  <Navbar/>
+  <div class="admin-panel">
+    <div class="main-content">
+      <!-- <h2 class="section-title">Quản lý Nhà Xuất Bản</h2> -->
+      <div class="action-bar">
+        <router-link to="/admin/nxb/them">
+          <button class="add-button">Thêm nhà xuất bản</button>
         </router-link>
         <div class="search-wrapper">
           <div class="search-bar">
@@ -15,71 +15,72 @@
               placeholder="Tìm kiếm"
               class="search-input"
             />
-            <button @click="searchBooks" class="search-button">Tìm kiếm</button>
+            <button @click="searchnxbs" class="search-button">Tìm kiếm</button>
           </div>
         </div>
-        </div>
-        <table>
-          <thead>
-            <tr>
-              <th>STT</th>
-              <th>Mã nhà xuất bản</th>
-              <th>Tên nhà xuất bản</th>
-              <th>Địa chỉ</th>
-              <th>Hành động</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(nxb, index) in paginatedBooks" :key="index">
-              <td>{{ (currentPage - 1) * pageSize + index + 1 }}</td>
-              <td>{{ nxb.maNXB }}</td>
-              <td>{{ nxb.tenNXB }}</td>
-              <td>{{ nxb.diaChi }}</td>
-              <td>
-                <router-link
-                  :to="{
-                    name: 'suanxb',
-                    params: { id: nxb._id },
-                  }"
-                >
-                  <button class="sua">Sửa</button>
-                </router-link>
-                <button class="xoa" @click="deletenxb(nxb)">Xóa</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <div class="pagination">
-          <button @click="previousPage" :disabled="currentPage === 1">
-            Trang trước
-          </button>
-          <span>Trang {{ currentPage }} / {{ totalPages }}</span>
-          <button @click="nextPage" :disabled="currentPage === totalPages">
-            Kế tiếp
-          </button>
-        </div>
+      </div>
+      <table>
+        <thead>
+          <tr>
+            <th>STT</th>
+            <th>Mã nhà xuất bản</th>
+            <th>Tên nhà xuất bản</th>
+            <th>Địa chỉ</th>
+            <th>Hành động</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(nxb, index) in paginatedBooks" :key="index">
+            <td>{{ (currentPage - 1) * pageSize + index + 1 }}</td>
+            <td>{{ nxb.maNXB }}</td>
+            <td>{{ nxb.tenNXB }}</td>
+            <td>{{ nxb.diaChi }}</td>
+            <td>
+              <router-link
+                :to="{
+                  name: 'suanxb',
+                  params: { id: nxb._id },
+                }"
+              >
+                <button class="edit-button">Sửa</button>
+              </router-link>
+              <button class="delete-button" @click="deletenxb(nxb)">Xóa</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <div class="pagination">
+        <button @click="previousPage" :disabled="currentPage === 1" class="page-button">
+          Trang trước
+        </button>
+        <span>Trang {{ currentPage }} / {{ totalPages }}</span>
+        <button @click="nextPage" :disabled="currentPage === totalPages" class="page-button">
+          Trang sau
+        </button>
       </div>
     </div>
-  </template>
-  
-  <script>
-import nxbService from "../../../services/issuer.service";
+  </div>
+</template>
+
+<script>
 import Navbar from "@/components/navbar.vue";
+import nxbService from "../../../services/issuer.service";
+
 export default {
-    components: {
-      Navbar,
-    },
+  components: {
+    Navbar,
+  },
   data() {
     return {
-      nxbs: [], // Đổi từ 'books' thành 'nxbs'
+      nxbs: [],
       currentPage: 1,
-      pageSize: 10,
+      pageSize: 7,
       searchQuery: "",
     };
   },
   methods: {
     async getAllnxb() {
-      this.nxbs = await nxbService.getAll();// Sử dụng 'nxbs' thay vì 'books'
+      this.nxbs = await nxbService.getAll();
     },
     async searchnxbs() {
       if (this.searchQuery.trim() === "") {
@@ -87,7 +88,7 @@ export default {
         return;
       }
       try {
-        let filtered = this.nxbs; // Sử dụng 'nxbs' thay vì 'books'
+        let filtered = this.nxbs;
         if (this.searchQuery) {
           filtered = filtered.filter((nxb) =>
             nxb.tenNXB.toLowerCase().includes(this.searchQuery.toLowerCase())
@@ -101,7 +102,7 @@ export default {
     async deletenxb(nxb) {
       if (confirm("Bạn muốn xóa sách này?")) {
         try {
-          await IssuerService.delete(nxb._id);
+          await nxbService.delete(nxb._id);
           this.nxbs = this.nxbs.filter((item) => item._id !== nxb._id);
         } catch (error) {
           console.error("Lỗi khi xóa sách:", error);
@@ -135,53 +136,24 @@ export default {
 };
 </script>
 
-  
 <style scoped>
-.action-bar {
-display: flex;
-justify-content: space-between;
-align-items: center;
-margin-bottom: 20px;
-}
-
-.search-wrapper {
-margin-right: auto; /* Đẩy phần tử này về bên trái cùng */
-}
-
-.search-bar {
-display: flex;
-align-items: center;
-}
-
-.search-input {
-padding: 8px;
-border: 1px solid #ccc;
-border-radius: 4px;
-margin-right: 10px;
-font-size: 16px;
-}
-
-.search-button {
-padding: 8px 12px;
-background-color: #007bff;
-color: #fff;
-border: none;
-border-radius: 4px;
-cursor: pointer;
-transition: background-color 0.3s ease;
-}
-
-.search-button:hover {
-background-color: #0056b3;
-}
-
 .admin-panel {
   display: flex;
+  padding: 20px;
 }
 
 .main-content {
   flex: 1;
   padding: 20px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.section-title {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
 }
 
 .action-bar {
@@ -193,10 +165,29 @@ background-color: #0056b3;
 
 .search-bar {
   display: flex;
+  align-items: center;
 }
 
-.search-bar input {
+.search-input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
   margin-right: 10px;
+  font-size: 16px;
+}
+
+.search-button {
+  background: linear-gradient(to right, #007bff, #00c6ff);
+  color: #fff;
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.search-button:hover {
+  background: linear-gradient(to right, #0056b3, #00a0ff);
 }
 
 table {
@@ -208,7 +199,7 @@ table {
 th,
 td {
   border: 1px solid #ccc;
-  padding: 8px;
+  padding: 12px;
   text-align: left;
 }
 
@@ -217,29 +208,39 @@ th {
 }
 
 button {
-  padding: 5px 10px;
+  padding: 8px 16px;
   margin-right: 5px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
-.them {
-  background-color: #28a745;
+.add-button {
+  background: linear-gradient(to right, #28a745, #32cd32);
 }
 
-.sua {
-  background-color: #ffc107;
+.edit-button {
+  background: linear-gradient(to right, #ffc107, #ffd700);
 }
 
-.xoa {
-  background-color: #dc3545;
+.delete-button {
+  background: linear-gradient(to right, #dc3545, #ff0000);
+}
+
+.page-button {
+  background: linear-gradient(to right, #007bff, #00c6ff);
+  color: #fff;
+}
+
+.page-button:hover {
+  background: linear-gradient(to right, #0056b3, #00a0ff);
 }
 
 .pagination {
   display: flex;
-  justify-content: flex-end;
+  justify-content: center;
   align-items: center;
-}
-
-.pagination button {
-  margin-left: 10px;
+  margin-top: 20px;
 }
 </style>

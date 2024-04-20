@@ -13,9 +13,45 @@ import quanlynxb from "../views/admin/nhaxuatban/quanly.vue";
 import suanxb from "../views/admin/nhaxuatban/sua.vue";
 import themnxb from "../views/admin/nhaxuatban/them.vue";
 import Quanlyuser from "../views/admin/user/quanly.vue";
-
-
+import  quanlymuonsach from"../views/admin/muonsach/quanly.vue";
+import suatrangthai from"../views/admin/muonsach/sua.vue";
+import trangchu from"../views/user/trangchu.vue";
+import chitietsach from "@/components/Bookdetail.vue";
+import muonsach from "@/views/user/muonsach.vue";
+import quydinhmuonsach from "@/views/user/quydinhmuonsach.vue";
+import profile from "@/views/user/profile.vue";
 const routes = [
+  //docgia
+  {
+    path: "/",
+    name: "trangchu",
+    component: trangchu,
+  },
+  {
+    path: "/quydinhmuonsach",
+    name: "quydinhmuonsach",
+    component: quydinhmuonsach,
+  },
+  
+  {
+    path: "/profile",
+    name: "profile",
+    component: profile,
+  },
+  {
+    path: "/chitietsach/:id",
+    name: "chitietsach",
+    component: chitietsach,
+    props: true,
+  },
+  {
+    path: "/user/muonsach/:id",
+    name: "muonsach",
+    component: muonsach,
+    props: true,
+  },
+
+
   
 
   //admin
@@ -71,6 +107,18 @@ const routes = [
     name: "quanlyuser",
     component: Quanlyuser,
   },
+  {
+    path: "/admin/muonsach/quanly",
+    name: "quanlymuonsach",
+    component: quanlymuonsach,
+  },
+  {
+    path: "/admin/muonsach/sua/:id",
+    name: "suatrangthai",
+    component: suatrangthai,
+    props: true,
+  },
+
   
 
 

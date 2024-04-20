@@ -60,19 +60,26 @@
           maNXB: "",
         },
         message: "",
+      isSuccess: true,
       };
     },
     methods: {
       async addBook() {
-        try {
-          await BookService.create(this.bookLocal);
-          this.message = "Sách đã được thêm thành công.";
-          this.clearForm();
-        } catch (error) {
-          console.error(error);
-          this.message = "Đã xảy ra lỗi khi thêm sách.";
+      try {
+        await BookService.create(this.bookLocal);
+        this.message = "Sách đã được thêm thành công.";
+        this.isSuccess = true;
+        this.clearForm();
+      } catch (error) {
+        console.error(error);
+        this.isSuccess = false;
+        if (error.response && error.response.status === 400) {
+          this.message = "Dữ liệu không hợp lệ. Vui lòng kiểm tra lại.";
+        } else if (error.response && error.response.status === 409) {
+          this.message = "Mã sách đã tồn tại. Vui lòng chọn mã sách khác.";
         }
-      },
+      }
+    },
       clearForm() {
         // Reset all form fields after successful book addition
         this.bookLocal = {
@@ -90,6 +97,18 @@
   </script>
   
   <style scoped>
+  .message {
+  margin-top: 10px;
+  font-weight: bold;
+}
+
+.success-message {
+  color: green;
+}
+
+.error-message {
+  color: red;
+}
   .add-book-container {
     background-color: white;
     margin: 30px auto;

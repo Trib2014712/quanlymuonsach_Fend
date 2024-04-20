@@ -60,18 +60,26 @@ export default {
   justify-content: center;
   align-items: center;
   height: 100vh;
+  background-color: #f3f4f6;
 }
 
 .login-form {
   width: 400px;
-  background-color: #f8f9fa;
-  padding: 20px;
+  background-color: #ffffff;
+  padding: 30px;
   border-radius: 8px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
+h2 {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
 .form-group {
-  margin-bottom: 1.5rem;
+  margin-bottom: 20px;
 }
 
 label {
@@ -83,17 +91,18 @@ label {
 input[type="tel"],
 input[type="password"] {
   width: 100%;
-  padding: 0.5rem;
+  padding: 12px;
   border: 1px solid #ccc;
   border-radius: 4px;
 }
 
 button {
   width: 100%;
-  padding: 0.5rem 1rem;
+  padding: 12px;
   border: none;
   border-radius: 4px;
   cursor: pointer;
+  font-size: 18px;
   transition: background-color 0.3s ease;
 }
 
@@ -103,22 +112,23 @@ button.dangnhap {
 }
 
 button.dangnhap:hover {
-  background: linear-gradient(to right, #ee9ca7, #ffdde1);
+  background: linear-gradient(to right, #667eea, #764ba2);
 }
 
 button.dangky {
-  margin-top: 0.5rem;
-  background: linear-gradient(to right, #fc00ff, #00dbde);
+  margin-top: 10px;
+  background: linear-gradient(to right, #ff416c, #ff4b2b);
   color: #fff;
 }
 
 button.dangky:hover {
-  background: linear-gradient(to right, #fc466b, #3f5efb);
+  background: linear-gradient(to right, #fc354c, #0abfbc);
 }
 
 .login-success-message {
-  margin-top: 1.5rem;
+  margin-top: 20px;
   font-size: 16px;
   color: green;
+  text-align: center;
 }
 </style>
