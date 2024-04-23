@@ -20,6 +20,7 @@ import chitietsach from "@/components/Bookdetail.vue";
 import muonsach from "@/views/user/muonsach.vue";
 import quydinhmuonsach from "@/views/user/quydinhmuonsach.vue";
 import profile from "@/views/user/profile.vue";
+import editprofile from "@/views/user/editprofile.vue";
 const routes = [
   //docgia
   {
@@ -37,6 +38,7 @@ const routes = [
     path: "/profile",
     name: "profile",
     component: profile,
+    props: true,
   },
   {
     path: "/chitietsach/:id",
@@ -50,6 +52,18 @@ const routes = [
     component: muonsach,
     props: true,
   },
+  {
+    path: '/login', 
+    name: 'dangnhapnguoidung', 
+    component: userLogin,
+  },
+  {
+    path: "/editprofile/:id",
+    name: "editprofile",
+    component: editprofile,
+    props: true
+  },
+  
 
 
   
@@ -65,11 +79,7 @@ const routes = [
     name: 'dangky', 
     component: sigupuser,
   },
-  {
-    path: '/login', 
-    name: 'dangnhapnguoidung', 
-    component: userLogin,
-  },
+  
   {
     path: '/admin/sach/quanly', 
     name: 'quanlysach', 

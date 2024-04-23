@@ -17,7 +17,7 @@
         </div>
         <div class="form-group button-group">
           <button type="submit" class="gradient-button">Lưu Thay Đổi</button>
-          <router-link :to="{ name: 'quanlynxb' }">
+          <router-link :to="{ name: 'quanlynxb' }"> 
             <button type="button" class="gradient-button return-button">Trở Về</button>
           </router-link>
         </div>

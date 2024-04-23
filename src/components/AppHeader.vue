@@ -7,9 +7,9 @@
           <li><router-link class="menu-link" to="/">Trang chủ</router-link></li>
           <li><router-link class="menu-link" to="/user/muonsach/:id">Mượn sách</router-link></li>
           <li><router-link class="menu-link" to="/quydinhmuonsach">Quy định</router-link></li>
-          <li><router-link class="menu-link" to="/user/nhaxuatban">Nhà xuất bản</router-link></li>
+          <!-- <li><router-link class="menu-link" to="/user/nhaxuatban">Nhà xuất bản</router-link></li> -->
           <li><router-link class="menu-link" to="/profile">Profile</router-link></li>
-          <li><router-link class="menu-link" to="/profile">Đăng xuất</router-link></li>
+          <li><router-link class="menu-link" to="/login">Đăng xuất</router-link></li>
           
         </ul>
       </nav>
